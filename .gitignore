@@ -1,4 +1,4 @@
-./idea*
+.idea/
 config.json
 venv/*
 *.pyc
