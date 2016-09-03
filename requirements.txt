@@ -1,0 +1,6 @@
+BeautifulSoup==3.2.1
+requests==2.11.1
+wheel==0.24.0
+lxml==3.4.0
+python-telegram-bot==5.0.0
+APScheduler==3.2.0
