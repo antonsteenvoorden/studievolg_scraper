@@ -1,4 +1,6 @@
 #README
+Als je de bot wilt helpen uitbreiden kan je een PR maken
+
 ##Requirements:
 - Telegram
 - Python 2.7
@@ -16,10 +18,9 @@ Vul hier jouw student gegevens in, je gewenste interval (minuten), en de tekst d
 
 Maak een nieuwe telegram bot aan via @BotFather: https://core.telegram.org/bots#6-botfather en vul de token in config.json in
 
+##Start
 Start de applicatie met ``python main.py``
 
 Om de bot automatisch een notificatie naar jou te laten sturen moet je minstens 1x ``/cijfers`` zeggen tegen de bot,
 de chat_id zal dan worden opgeslagen, en zolang je die niet weg haalt uit je config.json weet hij jou te vinden.
-
-Als je de bot wilt uitbreiden kan je een PR maken
 
