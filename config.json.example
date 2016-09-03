@@ -1,0 +1,11 @@
+{
+  "username": "JOUW_STUDENT_NUMMER_bijvoorbeeld_s1234123",
+  "password": "JOUW_OSIRIS_WACHTWOORD",
+  "interval": 360,
+  "telegram_token": "TOKEN_VAN_BOTFATHER",
+  "chat_id":"",
+  "message":"Hier zijn je nieuwe cijfers! \n"
+}
+
+Chat_id kan je vullen door 1x tegen de bot /cijfers te zeggen,
+dan wordt het weg geschreven in deze json
