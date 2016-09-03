@@ -1,14 +1,9 @@
-import os
 import requests
-import json
 from lxml import html
 from BeautifulSoup import BeautifulSoup, Comment
 import httplib  # or http.client if you're on Python 3
 
 httplib._MAXHEADERS = 1000
-
-
-# requirements : lxml, might need to run this command: sudo apt-get install python-dev && sudo apt-get install python-lxml
 
 class Scraper():
     my_headers = ''
@@ -77,31 +72,6 @@ class Scraper():
         # [1:] is alles behalve eerste resultaat, bevat namelijk de headers
         for row in td[1:]:
             test = row.findAll("span")
-            """
-            Soms is er geen weging, soms is er wel concept bij..
-            Moet hier nog iets voor verzinnen dat niet 100 if's heeft..
-            4 scenarios:
-            - 6 velden: geen weging
-            - 7 velden: geen weging, wel concept
-            - 8 velden: alles, inclusief concept
-            - 7 velden alles, exclusief concept
-            """
-            # if len(test) < 7:
-            #    continue
-            #
-            # cijfer = {
-            #     "toetsdatum": test[0].text,
-            #     "cursus": test[1].text,
-            #     "omschrijving": test[2].text,
-            #     "toets": test[3].text,
-            #     "weging": test[4].text,
-            #     "resultaat": test[5].text,
-            #     "concept": "",
-            #     "mutatiedatum": test[6].text
-            # }
-            #
-            # print('Result obtained:', cijfer)
-            # results.append(cijfer)
             for index, element in enumerate(test):
                 test[index] = test[index].text
 
@@ -120,8 +90,4 @@ class Scraper():
         self.get_authorisation()
         resultaten_html = self.get_resultaten()
         results = self.get_cijfers(resultaten_html)
-        print('finished with', len(results), 'results')
         return results
-
-###CREATE API EXPOSED TO ANDROID APP
-###PUSH NOTIFICATION INSTEAD OF PULLING ?
