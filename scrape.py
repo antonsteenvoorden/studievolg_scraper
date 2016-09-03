@@ -95,7 +95,6 @@ class Scraper():
                 "toets": temp[3],
                 "weging": temp[4],
                 "resultaat": temp[6],
-                "concept": temp[7],
                 "mutatiedatum": temp[8]
             }
             print('Result obtained:', cijfer)
