@@ -72,35 +72,34 @@ class Scraper():
 
     def get_cijfers(self, resultaten_html):
         table_rows = resultaten_html.find('table', {"class": "OraTableContent"})
+        temp_results = []
+
+        for tr in table_rows.findAll("tr"):
+            temp = []
+            for td in tr.findAll("td"):
+                temp.append(td.text)
+
+            if len(temp) != 0:
+                temp_results.append(temp)
+
+        self.resultaten = self.get_dictionary_from_cijfers(temp_results)
+        return self.resultaten
+
+    def get_dictionary_from_cijfers(self, cijfers):
         results = []
-        td = table_rows.findAll("td")
-        # [1:] is alles behalve eerste resultaat, bevat namelijk de headers
-        for row in table_rows.findAll("td")[1:]:
-            test = row
-            print('text gevonden jonge', test.text)
-            # if len(test) < 7:
-            #    continue
-            #
-            # cijfer = {
-            #     "toetsdatum": test[0].text,
-            #     "cursus": test[1].text,
-            #     "omschrijving": test[2].text,
-            #     "toets": test[3].text,
-            #     "weging": test[4].text,
-            #     "resultaat": test[5].text,
-            #     "concept": "",
-            #     "mutatiedatum": test[6].text
-            # }
-            #
-            # print('Result obtained:', cijfer)
-            # results.append(cijfer)
-            for index, element in enumerate(test):
-                test[index] = test[index].text
-
-            print('Result obtained:', test)
-
-            results.append(test)
-        self.resultaten = results
+        for temp in cijfers:
+            cijfer = {
+                "toetsdatum": temp[0],
+                "cursus": temp[1],
+                "omschrijving": temp[2],
+                "toets": temp[3],
+                "weging": temp[4],
+                "resultaat": temp[6],
+                "concept": temp[7],
+                "mutatiedatum": temp[8]
+            }
+            print('Result obtained:', cijfer)
+            results.append(cijfer)
         return results
 
     def get_cijferlijst(self):
