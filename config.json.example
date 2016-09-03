@@ -6,6 +6,3 @@
   "chat_id":"",
   "message":"Hier zijn je nieuwe cijfers! \n"
 }
-
-Chat_id kan je vullen door 1x tegen de bot /cijfers te zeggen,
-dan wordt het weg geschreven in deze json
