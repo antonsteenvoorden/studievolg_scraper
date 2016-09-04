@@ -4,5 +4,11 @@
   "interval": 360,
   "telegram_token": "TOKEN_VAN_BOTFATHER",
   "chat_id":"",
-  "message":"Hier zijn je nieuwe cijfers! \n"
+  "message":"Hier zijn je nieuwe cijfers! \n",
+  "email_subject":"Je hebt nieuwe cijfers! \n",
+  "gmailusername":"JOUWNAAM@gmail.com",
+  "gmailpassword":"JOUWPASSWORD",
+  "emailreceiver":"EMAIL_ONTVANGER OF ["a@b.com", "b@b.com", "c@b.com"]",
+  "email_server":"smtp.gmail.com",
+  "email_port":587
 }

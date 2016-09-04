@@ -48,7 +48,7 @@ def main():
 
     if config['telegram_token'] != "":
         notifier = TelegramNotifier(config, scraper)
-    elif config['gmailusername'] != "" and config['gmailpassword'] != "":
+    elif config['email_username'] != "" and config['email_password'] != "":
         notifier = MailNotifier(config, scraper)
 
     scheduler = BlockingScheduler(standalone=True)

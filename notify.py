@@ -37,8 +37,6 @@ class Notifier(Updater):
             self.send_update_message(new_cijfers)
             return False
 
-        #tmp for difference yo
-        self.old_cijfers.pop()
         difference = self.check_diff(self.old_cijfers, new_cijfers)
 
         if not difference:
@@ -140,11 +138,11 @@ class MailNotifier(Notifier):
 
     def send_update_message(self, cijfer_list):
         logger.info('sending update message')
-        email = smtplib.SMTP('smtp.gmail.com', 587)
+        email = smtplib.SMTP(self.config['email_server'], self.config['email_port'])
         email.ehlo()
         email.starttls()
-        email.login(self.config['gmailusername'], self.config['gmailpassword'])
+        email.login(self.config['email_username'], self.config['email_password'])
         email.sendmail('studievolg@robots.com', self.config['emailreceiver'],
-                       'Subject:'+self.config['message']+'\n' + json.dumps(cijfer_list))
+                       'Subject:'+self.config['email_subject']+'\n' + self.config['message']+ json.dumps(cijfer_list, indent=2, sort_keys=True))
         email.quit()
         logger.info('sent an email')
