@@ -24,9 +24,9 @@ Je kan ook bij het opstarten van je machine het programma laten uitvoeren door e
 
 ``sudo crontab -e``
 
-En vervolgens
+En vervolgens bijvoorbeeld voor een standaard raspberry pi installatie:
 
-``@reboot python /home/pi/studievolg-scraper/main.py``
+``@reboot python /home/pi/studievolg_scraper/main.py``
 
 Om de bot automatisch een notificatie naar jou te laten sturen moet je minstens 1x ``/cijfers`` zeggen tegen de bot,
 de chat_id zal dan worden opgeslagen, en zolang je die niet weg haalt uit je config.json weet hij jou te vinden.
