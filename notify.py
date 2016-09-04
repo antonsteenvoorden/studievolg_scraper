@@ -9,12 +9,12 @@ logger = logging.getLogger()
 @date 	    04-09-2016
 @version 	1.1
 """
+
 class Notifier(Updater):
     config = None
     notifier = None
     scraper = None
     token = None
-    request_url = None
     dispatcher = None
     message_text = None
     chat_id = None
@@ -26,7 +26,6 @@ class Notifier(Updater):
         self.config = config
         self.scraper = scraper
         self.token = config['telegram_token']
-        self.request_url = 'https://api.telegram.org/bot%s/' % self.token
         self.notifier = Updater(token=self.token)
         self.message_text = config['message']
         self.dispatcher = self.notifier.dispatcher
@@ -58,7 +57,7 @@ class Notifier(Updater):
     def check_diff(self, oud, nieuw):
         difference = list(itertools.ifilterfalse(lambda x: x in oud, nieuw))\
                      + list(itertools.ifilterfalse(lambda x: x in nieuw, oud))
-        logger.info('differences: ', difference)
+        logger.info('differences: ', str(difference))
         if len(difference) == 0:
             return False
 
@@ -69,6 +68,16 @@ class Notifier(Updater):
         with open(self.temporary_save, 'w') as data_file:
             data_file.write(json.dumps(cijfers))
             data_file.close()
+
+    def get_saved_cijfers(self):
+        logger.info('getting saved cijfers')
+        # bestaat cijfers file? anders aanmaken
+        if not os.path.isfile(self.temporary_save):
+            return False
+
+        with open(self.temporary_save, 'r') as data_file:
+            self.old_cijfers = json.load(data_file)
+            return self.old_cijfers
 
     def send_cijfers(self, bot, update):
         if self.config['chat_id'] == '':
@@ -102,24 +111,11 @@ class Notifier(Updater):
         bot.sendMessage(chat_id=update.message.chat_id,
                         text=self.message_text + json.dumps(new_cijfers[0], indent=2, sort_keys=True))
 
-    def get_saved_cijfers(self):
-        logger.info('getting saved cijfers')
-        # bestaat cijfers file? anders aanmaken
-        if not os.path.isfile(self.temporary_save):
-            return False
-
-        with open(self.temporary_save, 'r') as data_file:
-            self.old_cijfers = json.loads(data_file)
-            return self.old_cijfers
-
     def send_update_message(self, cijfer_list):
         logger.info('sending update message')
         self.chat_id = self.config['chat_id']
         if self.chat_id != '':
-            re = requests.post(url=self.request_url + 'sendMessage',
-                               data={
-                                   'chat_id': self.chat_id,
-                                   'text': self.message_text + json.dumps(cijfer_list, indent=2, sort_keys=True)
-                               })
+            self.notifier.bot.sendMessage(chat_id=self.chat_id, text=json.dumps(cijfer_list, indent=2, sort_keys=True))
         else:
             print('Geen chat_id gevonden, zorg dat je minstens 1x /cijfers tegen de bot gezegd hebt!')
+
