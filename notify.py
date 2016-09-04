@@ -55,7 +55,7 @@ class Notifier(Updater):
 
     def write_tmp_cijfers(self, cijfers):
         with open(self.temporary_save, 'w') as data_file:
-            json.dump(cijfers, data_file)
+            data_file.write(json.dumps(cijfers))
             data_file.close()
 
     def send_cijfers(self, bot, update):
