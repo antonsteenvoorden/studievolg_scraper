@@ -1,10 +1,12 @@
 #README
 Nooit meer inloggen op studievolg.hsleiden, wat een kut website.. Geen eens ondersteuning voor mobiele apparaten!
 Dit simpele programmatje houdt jou op de hoogte van jouw cijfers, geen gedoe, gewoon up to date zijn.
-Hoe werkt het?
-Het script logt voor jou in door een browser na te doen, en haalt hierdoor de "OSIRIS - Resultaten" pagina op.
-Deze wordt vervolgens doorgespit op cijfers, en vergelijkt deze met de cijfers van de vorige keer.
-Heb je een nieuw cijfer(s)? Dan krijg je via jouw Telegram bot een notificatie.
+####Hoe werkt het?
+1. Het script logt voor jou in door een browser na te doen, en haalt hierdoor de "OSIRIS - Resultaten" pagina op.
+2. Deze wordt vervolgens doorgespit op cijfers, en vergelijkt deze met de cijfers van de vorige keer.
+3. Heb je een nieuw cijfer(s)? Dan krijg je via jouw Telegram bot een notificatie.
+
+>studievolg.hsleiden, wat een kut website..
 
 ##Requirements:
 - Telegram
