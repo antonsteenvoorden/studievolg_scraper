@@ -1,6 +1,7 @@
 from telegram.ext import Updater, CommandHandler
 import sys, os, json, logging, requests, pickle
 import itertools
+import smtplib
 
 logger = logging.getLogger()
 """
@@ -36,6 +37,8 @@ class Notifier(Updater):
             self.send_update_message(new_cijfers)
             return False
 
+        #tmp for difference yo
+        self.old_cijfers.pop()
         difference = self.check_diff(self.old_cijfers, new_cijfers)
 
         if not difference:
@@ -46,7 +49,7 @@ class Notifier(Updater):
     def check_diff(self, oud, nieuw):
         difference = list(itertools.ifilterfalse(lambda x: x in oud, nieuw))\
                      + list(itertools.ifilterfalse(lambda x: x in nieuw, oud))
-        logger.info('differences: ', str(difference))
+        # logger.info('differences: ', str(difference))
         if len(difference) == 0:
             return False
 
@@ -69,6 +72,7 @@ class Notifier(Updater):
             return self.old_cijfers
 
     def send_update_message(self, cijfer_list):
+        logger.info('the fuck is this parent method being called for?')
         raise NotImplementedError
 
 class TelegramNotifier(Notifier):
@@ -135,5 +139,12 @@ class MailNotifier(Notifier):
         logger.info('Creating a GMAIL notifier')
 
     def send_update_message(self, cijfer_list):
-        print('checking out if i can acces my parent config self' + self.config)
-        print('mailnotifier called with that list yo')
+        logger.info('sending update message')
+        email = smtplib.SMTP('smtp.gmail.com', 587)
+        email.ehlo()
+        email.starttls()
+        email.login(self.config['gmailusername'], self.config['gmailpassword'])
+        email.sendmail('studievolg@robots.com', self.config['emailreceiver'],
+                       'Subject:'+self.config['message']+'\n' + json.dumps(cijfer_list))
+        email.quit()
+        logger.info('sent an email')
