@@ -11,6 +11,11 @@ scraper = None
 file_path = os.path.dirname(os.path.realpath(__file__))
 
 """
+@author 	Anton Steenvoorden
+@contact 	antonsteenvoorden@gmail.com
+@date 	    04-09-2016
+@version 	1.1
+
 Maak gebruik van de @BotFather https://core.telegram.org/bots#6-botfather
 plak de token van je bot in config.json bij telegram_token
 Note: Bots can't initiate conversations with users.

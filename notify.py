@@ -3,7 +3,12 @@ import sys, os, json, logging, requests, pickle
 import itertools
 
 logger = logging.getLogger()
-
+"""
+@author 	Anton Steenvoorden
+@contact 	antonsteenvoorden@gmail.com
+@date 	    04-09-2016
+@version 	1.1
+"""
 class Notifier(Updater):
     config = None
     notifier = None

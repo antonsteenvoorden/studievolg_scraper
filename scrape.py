@@ -6,6 +6,13 @@ import httplib  # or http.client if you're on Python 3
 httplib._MAXHEADERS = 1000
 logger = logging.getLogger()
 
+"""
+@author 	Anton Steenvoorden
+@contact 	antonsteenvoorden@gmail.com
+@date 	    04-09-2016
+@version 	1.1
+"""
+
 # requirements : lxml, might need to run this command: sudo apt-get install python-dev && sudo apt-get install python-lxml
 
 class Scraper():
