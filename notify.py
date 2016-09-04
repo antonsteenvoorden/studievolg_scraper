@@ -27,6 +27,8 @@ class Notifier(Updater):
 
         cijfers_handler = CommandHandler('cijfers', self.send_cijfers)
         self.dispatcher.add_handler(cijfers_handler)
+        new_cijfers_handler = CommandHandler('nieuwste', self.send_new_cijfer)
+        self.dispatcher.add_handler(new_cijfers_handler)
         self.notifier.start_polling()
 
     def check_if_new(self, new_cijfers):
@@ -69,11 +71,24 @@ class Notifier(Updater):
             file.write(json.dumps(self.config))
             file.close()
 
-        new_cijfers = self.scraper.get_cijferlijst()
-        if len(new_cijfers) == 0:
-            new_cijfers = self.get_saved_cijfers()
-
+        new_cijfers = self.scraper.scrape()
         bot.sendMessage(chat_id=update.message.chat_id, text=self.message_text + json.dumps(new_cijfers, indent=2, sort_keys=True))
+
+    def send_new_cijfer(self, bot, update):
+        if self.config['chat_id'] == '':
+            self.config['chat_id'] = update.message.chat_id
+            self.chat_id = self.config['chat_id']
+
+            print('first time using the chat id, writing to config file..')
+
+            file = open(self.file_path + '/config.json', 'w')
+            file.write(json.dumps(self.config))
+            file.close()
+
+        new_cijfers = self.scraper.scrape()
+
+        bot.sendMessage(chat_id=update.message.chat_id,
+                        text=self.message_text + json.dumps(new_cijfers[0], indent=2, sort_keys=True))
 
     def get_saved_cijfers(self):
         # bestaat cijfers file? anders aanmaken
