@@ -25,18 +25,7 @@ class Notifier(Updater):
     def __init__(self, config, scraper):
         self.config = config
         self.scraper = scraper
-        self.token = config['telegram_token']
-        self.notifier = Updater(token=self.token)
-        self.message_text = config['message']
-        self.dispatcher = self.notifier.dispatcher
-
-        cijfers_handler = CommandHandler('cijfers', self.send_cijfers)
-        self.dispatcher.add_handler(cijfers_handler)
-        new_cijfers_handler = CommandHandler('new', self.send_new_cijfer)
-        self.dispatcher.add_handler(new_cijfers_handler)
-        self.notifier.start_polling()
-        logger.info('notifier created')
-
+        logger.info('Parent notifier has properties')
 
     def check_if_new(self, new_cijfers):
         logger.info('checking if new cijfers')
@@ -79,6 +68,25 @@ class Notifier(Updater):
             self.old_cijfers = json.load(data_file)
             return self.old_cijfers
 
+    def send_update_message(self, cijfer_list):
+        raise NotImplementedError
+
+class TelegramNotifier(Notifier):
+
+    def __init__(self, config, scraper):
+        Notifier.__init__(self, config,scraper)
+        logger.info('Creating a telegram notifier')
+        self.token = config['telegram_token']
+        self.notifier = Updater(token=self.token)
+        self.message_text = config['message']
+        self.dispatcher = self.notifier.dispatcher
+
+        cijfers_handler = CommandHandler('cijfers', self.send_cijfers)
+        self.dispatcher.add_handler(cijfers_handler)
+        new_cijfers_handler = CommandHandler('new', self.send_new_cijfer)
+        self.dispatcher.add_handler(new_cijfers_handler)
+        self.notifier.start_polling()
+
     def send_cijfers(self, bot, update):
         if self.config['chat_id'] == '':
             self.config['chat_id'] = update.message.chat_id
@@ -119,3 +127,13 @@ class Notifier(Updater):
         else:
             print('Geen chat_id gevonden, zorg dat je minstens 1x /cijfers tegen de bot gezegd hebt!')
 
+
+
+class MailNotifier(Notifier):
+    def __init__(self, config, scraper):
+        Notifier.__init__(self, config,scraper)
+        logger.info('Creating a GMAIL notifier')
+
+    def send_update_message(self, cijfer_list):
+        print('checking out if i can acces my parent config self' + self.config)
+        print('mailnotifier called with that list yo')

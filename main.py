@@ -2,7 +2,7 @@
 
 from scrape import Scraper
 from apscheduler.schedulers.blocking import BlockingScheduler
-from notify import Notifier
+from notify import TelegramNotifier, MailNotifier
 import sys, os, json, logging
 
 config = None
@@ -38,8 +38,8 @@ def run_scraper():
 
 def main():
     global scraper, notifier, config
-    # logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    # level = logging.INFO)
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level = logging.DEBUG)
     logger = logging.getLogger()
 
     config = fetch_config()
@@ -47,7 +47,9 @@ def main():
     interval = config['interval']
 
     if config['telegram_token'] != "":
-        notifier = Notifier(config, scraper)
+        notifier = TelegramNotifier(config, scraper)
+    elif config['gmailusername'] != "" and config['gmailpassword'] != "":
+        notifier = MailNotifier(config, scraper)
 
     scheduler = BlockingScheduler(standalone=True)
     scheduler.add_job(run_scraper, 'interval', minutes=interval)
