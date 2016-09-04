@@ -39,8 +39,8 @@ def run_scraper():
 def main():
     global scraper, notifier, config
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level = logging.INFO)
-    logger = logging.getLogger()
+    # level = logging.INFO)
+    # logger = logging.getLogger()
 
     config = fetch_config()
     scraper = Scraper(config['username'],config['password'])
