@@ -142,7 +142,7 @@ class MailNotifier(Notifier):
         email.ehlo()
         email.starttls()
         email.login(self.config['email_username'], self.config['email_password'])
-        email.sendmail('studievolg@robots.com', self.config['emailreceiver'],
+        email.sendmail('studievolg@robots.com', self.config['email_receiver'],
                        'Subject:'+self.config['email_subject']+'\n' + self.config['message']+ json.dumps(cijfer_list, indent=2, sort_keys=True))
         email.quit()
         logger.info('sent an email')
