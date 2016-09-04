@@ -33,8 +33,9 @@ def run_scraper():
 
 def main():
     global scraper, notifier, config
-    # logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    # level = logging.INFO)
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level = logging.INFO)
+    logger = logging.getLogger()
 
     config = fetch_config()
     scraper = Scraper(config['username'],config['password'])
@@ -47,6 +48,7 @@ def main():
     scheduler.add_job(run_scraper, 'interval', minutes=interval)
 
     try:
+        logger.info('starting schedular')
         scheduler.start()
     except (KeyboardInterrupt):
         print('Caught interrupt, stopping!')

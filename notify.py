@@ -2,6 +2,7 @@ from telegram.ext import Updater, CommandHandler
 import sys, os, json, logging, requests, pickle
 import itertools
 
+logger = logging.getLogger()
 
 class Notifier(Updater):
     config = None
@@ -27,11 +28,14 @@ class Notifier(Updater):
 
         cijfers_handler = CommandHandler('cijfers', self.send_cijfers)
         self.dispatcher.add_handler(cijfers_handler)
-        new_cijfers_handler = CommandHandler('nieuwste', self.send_new_cijfer)
+        new_cijfers_handler = CommandHandler('new', self.send_new_cijfer)
         self.dispatcher.add_handler(new_cijfers_handler)
         self.notifier.start_polling()
+        logger.info('notifier created')
+
 
     def check_if_new(self, new_cijfers):
+        logger.info('checking if new cijfers')
         self.old_cijfers = self.get_saved_cijfers()
 
         if not self.old_cijfers:
@@ -49,13 +53,14 @@ class Notifier(Updater):
     def check_diff(self, oud, nieuw):
         difference = list(itertools.ifilterfalse(lambda x: x in oud, nieuw))\
                      + list(itertools.ifilterfalse(lambda x: x in nieuw, oud))
-        print('differences: ', difference)
+        logger.info('differences: ', difference)
         if len(difference) == 0:
             return False
 
         return difference
 
     def write_tmp_cijfers(self, cijfers):
+        logger.info('writing tmp cijfers')
         with open(self.temporary_save, 'w') as data_file:
             data_file.write(json.dumps(cijfers))
             data_file.close()
@@ -65,12 +70,13 @@ class Notifier(Updater):
             self.config['chat_id'] = update.message.chat_id
             self.chat_id = self.config['chat_id']
 
-            print('first time using the chat id, writing to config file..')
+            logger.info('first time using the chat id, writing to config file..')
 
             file = open(self.file_path + '/config.json', 'w')
             file.write(json.dumps(self.config))
             file.close()
 
+        logger.info('send cijfers called')
         new_cijfers = self.scraper.scrape()
         bot.sendMessage(chat_id=update.message.chat_id, text=self.message_text + json.dumps(new_cijfers, indent=2, sort_keys=True))
 
@@ -79,18 +85,20 @@ class Notifier(Updater):
             self.config['chat_id'] = update.message.chat_id
             self.chat_id = self.config['chat_id']
 
-            print('first time using the chat id, writing to config file..')
+            logger.info('first time using the chat id, writing to config file..')
 
             file = open(self.file_path + '/config.json', 'w')
             file.write(json.dumps(self.config))
             file.close()
 
+        logger.info('send newest cijfer called')
         new_cijfers = self.scraper.scrape()
 
         bot.sendMessage(chat_id=update.message.chat_id,
                         text=self.message_text + json.dumps(new_cijfers[0], indent=2, sort_keys=True))
 
     def get_saved_cijfers(self):
+        logger.info('getting saved cijfers')
         # bestaat cijfers file? anders aanmaken
         if not os.path.isfile(self.temporary_save):
             return False
@@ -100,6 +108,7 @@ class Notifier(Updater):
             return self.old_cijfers
 
     def send_update_message(self, cijfer_list):
+        logger.info('sending update message')
         self.chat_id = self.config['chat_id']
         if self.chat_id != '':
             re = requests.post(url=self.request_url + 'sendMessage',

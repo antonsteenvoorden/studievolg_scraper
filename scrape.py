@@ -1,12 +1,10 @@
-import os
-import requests
-import json
+import os, requests, json, logging
 from lxml import html
 from BeautifulSoup import BeautifulSoup, Comment
 import httplib  # or http.client if you're on Python 3
 
 httplib._MAXHEADERS = 1000
-
+logger = logging.getLogger()
 
 # requirements : lxml, might need to run this command: sudo apt-get install python-dev && sudo apt-get install python-lxml
 
@@ -50,6 +48,7 @@ class Scraper():
         }
 
         self.session = requests.Session()
+        logger.info('initialized scraper')
 
     def get_startpagina(self):
         self.my_headers['startUrl'] = "Personalia.do"
@@ -86,6 +85,7 @@ class Scraper():
         return self.resultaten
 
     def get_dictionary_from_cijfers(self, cijfers):
+        logger.info('get dictionary from cijfers')
         results = []
         for temp in cijfers:
             cijfer = {
@@ -97,7 +97,8 @@ class Scraper():
                 "resultaat": temp[6],
                 "mutatiedatum": temp[8]
             }
-            print('Result obtained:', cijfer)
+            result_obtained = 'Result obtained: ' +str(cijfer)
+            logger.info(result_obtained)
             results.append(cijfer)
         return results
 
@@ -110,5 +111,6 @@ class Scraper():
         self.get_authorisation()
         resultaten_html = self.get_resultaten()
         results = self.get_cijfers(resultaten_html)
-        print('finished with', len(results), 'results')
+        amount_of_results = 'Found : ' + str(len(results)) + ' results'
+        logger.info(amount_of_results)
         return results
