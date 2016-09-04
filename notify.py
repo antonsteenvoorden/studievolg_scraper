@@ -81,7 +81,7 @@ class Notifier(Updater):
             return False
 
         with open(self.temporary_save, 'r') as data_file:
-            self.old_cijfers = json.load(data_file)
+            self.old_cijfers = json.loads(data_file)
             return self.old_cijfers
 
     def send_update_message(self, cijfer_list):
