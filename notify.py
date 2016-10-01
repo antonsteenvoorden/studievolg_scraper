@@ -42,6 +42,7 @@ class Notifier(Updater):
         if not difference:
             return False
 
+        self.write_tmp_cijfers(new_cijfers)
         self.send_update_message(difference)
 
     def check_diff(self, oud, nieuw):
