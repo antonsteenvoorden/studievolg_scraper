@@ -49,7 +49,7 @@ class Notifier(Updater):
     def check_diff(self, oud, nieuw):
         difference = list(itertools.ifilterfalse(lambda x: x in oud, nieuw))\
                      + list(itertools.ifilterfalse(lambda x: x in nieuw, oud))
-        # logger.info('differences: ', str(difference))
+        logger.info('differences: ', str(difference))
         if len(difference) == 0:
             return False
 
@@ -76,7 +76,6 @@ class Notifier(Updater):
         raise NotImplementedError
 
 class TelegramNotifier(Notifier):
-
     def __init__(self, config, scraper):
         Notifier.__init__(self, config,scraper)
         logger.info('Creating a telegram notifier')
@@ -89,7 +88,6 @@ class TelegramNotifier(Notifier):
             'resize_keyboard':True,
             'one_time_keyboard':False
         }
-
         self.dispatcher = self.notifier.dispatcher
 
         cijfers_handler = CommandHandler('start', self.send_keyboard)
@@ -101,6 +99,8 @@ class TelegramNotifier(Notifier):
         self.notifier.start_polling()
 
     def send_keyboard(self, bot, update):
+        logger.info('send keyboard called')
+
         if self.config['chat_id'] == '':
             self.config['chat_id'] = update.message.chat_id
             self.chat_id = self.config['chat_id']
