@@ -14,6 +14,7 @@ Kies voor Telegram of email notificaties.
 ##Requirements:
 - Telegram
 - Python 2.7
+- Klein beetje tijd
 
 ##Setup
 Installeer de dependencies van het programmatje door:
@@ -26,9 +27,12 @@ Kopieer/hernoem config.json.example naar config.json.
 
 Vul hier jouw student gegevens in, je gewenste interval (minuten), en de tekst die de bot stuurt bij de melding.
 
+Start main.py
+
 ###Telegram
 Maak een nieuwe telegram bot aan via @BotFather: https://core.telegram.org/bots#6-botfather en vul de token in config.json in,
- zorg ervoor dat de velden gmailusername en gmailpassword leeg zijn.
+ zorg ervoor dat de velden gmailusername en gmailpassword leeg zijn (Op dit moment kan je nog niet beide tegelijk ontvangen)
+Als je een nieuwe bot hebt aangemaakt kan je het gesprek met de bot beginnen door te klikken op het linkje die de BotFather opstuurt.
 
 ###E-Mail
 In plaats van telegram kan je ook gebruik maken van e-mail.
@@ -51,12 +55,15 @@ En vervolgens bijvoorbeeld voor een standaard raspberry pi installatie:
 
 ``@reboot python /home/pi/studievolg_scraper/main.py`` als dit niet werkt moet je het commando hierboven gebruiken
 
-Om de bot automatisch een notificatie naar jou te laten sturen moet je minstens 1x ``/cijfers`` zeggen tegen de bot,
+Om de bot automatisch een notificatie naar jou te laten sturen moet je 1x ``/start`` zeggen tegen de bot,
 de chat_id zal dan worden opgeslagen, en zolang je die niet weg haalt uit je config.json weet hij jou te vinden.
-##Telegram commands
-Naast dat hij automatisch nieuwe cijfers verstuurd kan je ook gebruik maken van:
- ``/cijfers`` om de scraper meteen te laten draaien en
-  ``/new`` om alleen het nieuwste resultaat op te halen
+Dit commando wordt uitgevoerd als je op "Begin" drukt in de chat met de bot.
+
+##Commands
+Maak gebruik van het toetsenbord dat wordt opgestuurd door de bot.
+Op dit moment zijn er 2 mogelijkheden:
+'/all': dit geeft de laatste 15 cijfers terug
+'/latest': dit geeft jouw laatste cijfer terug
 
 >Als je de bot wilt helpen uitbreiden kan je een PR maken
 

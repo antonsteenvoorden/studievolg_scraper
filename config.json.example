@@ -10,5 +10,6 @@
   "gmailpassword":"JOUWPASSWORD",
   "emailreceiver":"EMAIL_ONTVANGER OF ["a@b.com", "b@b.com", "c@b.com"]",
   "email_server":"smtp.gmail.com",
-  "email_port":587
+  "email_port":587,
+  "logging":"True"
 }
