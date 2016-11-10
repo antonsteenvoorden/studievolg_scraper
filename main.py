@@ -38,11 +38,14 @@ def run_scraper():
 
 def main():
     global scraper, notifier, config
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level = logging.DEBUG)
+    config = fetch_config()
+
+    if config['logging'] == "True":
+        logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level = logging.DEBUG)
+
     logger = logging.getLogger()
 
-    config = fetch_config()
     scraper = Scraper(config['username'],config['password'])
     interval = config['interval']
 
