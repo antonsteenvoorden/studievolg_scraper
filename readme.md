@@ -1,5 +1,5 @@
 #README
-Nooit meer inloggen op studievolg.hsleiden, wat een kut website..
+Nooit meer handmatig inloggen op studievolg.hsleiden
 Geen eens ondersteuning voor mobiele apparaten!
 Dit simpele programmatje houd jou op de hoogte van jouw cijfers, geen gedoe, gewoon up to date zijn.
 Kies voor Telegram of email notificaties.
