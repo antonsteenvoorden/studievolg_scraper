@@ -9,7 +9,6 @@ Kies voor Telegram of email notificaties.
 2. Deze wordt vervolgens doorgespit op cijfers, en vergelijkt deze met de cijfers van de vorige keer.
 3. Heb je een nieuw cijfer(s)? Dan krijg je via jouw Telegram bot of jouw email een notificatie
 
->studievolg.hsleiden, wat een kut website..
 
 ##Requirements:
 - Telegram
