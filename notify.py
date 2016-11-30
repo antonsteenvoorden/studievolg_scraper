@@ -33,7 +33,7 @@ class Notifier(Updater):
     def check_if_new(self, new_cijfers):
         logger.info('checking if new cijfers')
         self.old_cijfers = self.get_saved_cijfers()
-
+        logger.info(self.old_cijfers)
         if not self.old_cijfers:
             self.write_tmp_cijfers(new_cijfers)
             self.send_update_message(new_cijfers)
@@ -50,7 +50,7 @@ class Notifier(Updater):
     def check_diff(self, oud, nieuw):
         difference = list(itertools.ifilterfalse(lambda x: x in oud, nieuw))\
                      + list(itertools.ifilterfalse(lambda x: x in nieuw, oud))
-        logger.info('differences: ', str(difference))
+        # logger.info('differences: ', str(difference))
         if len(difference) == 0:
             return False
 
@@ -58,9 +58,10 @@ class Notifier(Updater):
 
     def write_tmp_cijfers(self, cijfers):
         logger.info('writing tmp cijfers')
-        with open(self.temporary_save, 'w') as data_file:
-            data_file.write(json.dumps(cijfers))
-            data_file.close()
+        logger.info(self.temporary_save)
+        file = open(self.temporary_save, 'w')
+        file.write(json.dumps(cijfers))
+        file.close()
 
     def get_saved_cijfers(self):
         logger.info('getting saved cijfers')
@@ -117,6 +118,7 @@ class TelegramNotifier(Notifier):
     def send_cijfers(self, bot, update):
         logger.info('send cijfers called')
         new_cijfers = self.scraper.scrape()
+        self.write_tmp_cijfers(cijfers=new_cijfers)
         bot.sendMessage(chat_id=update.message.chat_id, text=self.message_text + json.dumps(new_cijfers, indent=2, sort_keys=True))
 
     def send_new_cijfer(self, bot, update):
@@ -128,9 +130,10 @@ class TelegramNotifier(Notifier):
         logger.info('sending update message')
         self.chat_id = self.config['chat_id']
         if self.chat_id != '':
-            self.notifier.bot.sendMessage(chat_id=self.chat_id, text=json.dumps(cijfer_list, indent=2, sort_keys=True), reply_markup=self.reply_markup)
+            self.notifier.bot.sendMessage(chat_id=self.chat_id, text=self.message_text + json.dumps(cijfer_list, indent=2, sort_keys=True), reply_markup=self.reply_markup)
         else:
-            print('Geen chat_id gevonden, zorg dat je minstens 1x /cijfers tegen de bot gezegd hebt!')
+            print('Geen chat_id gevonden, zorg dat je minstens 1x /start tegen de bot gezegd hebt!')
+            logger.info('Geen chat_id gevonden, zorg dat je minstens 1x /start tegen de bot gezegd hebt!')
 
 
 
